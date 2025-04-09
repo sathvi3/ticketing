@@ -1,0 +1,67 @@
+apiVersion: skaffold/v4beta12
+kind: Config
+build:
+  artifacts:
+    # - image: us.gcr.io/ticketing-dev-453007/auth For Google cloud build
+    - image: sathvi3/auth
+      context: auth
+      sync:
+        manual:
+          - src: src/**/*.ts
+            dest: .
+      docker:
+        dockerfile: Dockerfile
+    # - image: us.gcr.io/ticketing-dev-453007/client For Google cloud build
+    - image: sathvi3/client
+      context: client
+      sync:
+        manual:
+          - src: "**/*.js"
+            dest: .
+      docker:
+        dockerfile: Dockerfile
+    # - image: us.gcr.io/ticketing-dev-453007/tickets For Google cloud build
+    - image: sathvi3/tickets
+      context: tickets
+      sync:
+        manual:
+          - src: src/**/*.ts
+            dest: .
+      docker:
+        dockerfile: Dockerfile
+    # - image: us.gcr.io/ticketing-dev-453007/orders For Google cloud build
+    - image: sathvi3/orders
+      context: orders
+      sync:
+        manual:
+          - src: src/**/*.ts
+            dest: .
+      docker:
+        dockerfile: Dockerfile
+    # - image: us.gcr.io/ticketing-dev-453007/expiration For Google cloud build
+    - image: sathvi3/expiration
+      context: expiration
+      sync:
+        manual:
+          - src: src/**/*.ts
+            dest: .
+      docker:
+        dockerfile: Dockerfile
+    # - image: us.gcr.io/ticketing-dev-453007/payments For Google cloud build
+    - image: sathvi3/payments
+      context: payments
+      sync:
+        manual:
+          - src: src/**/*.ts
+            dest: .
+      docker:
+        dockerfile: Dockerfile
+  local:
+    push: false
+  # googleCloudBuild: Uncomment for Google cloud build
+  #   projectId: ticketing-dev-453007
+manifests:
+  rawYaml:
+    - ./infra/k8s/*
+deploy:
+  kubectl: {}
